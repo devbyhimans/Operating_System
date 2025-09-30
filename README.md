@@ -4,7 +4,7 @@ Welcome to the Operating Systems repository\! This project is a collection of C 
 
 ## **📖 Table of Contents**
 
-* [About The Project](https://www.google.com/search?q=%23-about-the-project)  
+* [About The Project](# **🌟 About The Project**)  
 * [Core Concepts Covered](https://www.google.com/search?q=%23-core-concepts-covered)  
   * [System Calls & Basics](https://www.google.com/search?q=%23-system-calls)  
   * [Threads & Signals](https://www.google.com/search?q=%23-threads--signals)  
