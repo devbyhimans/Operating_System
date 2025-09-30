@@ -4,19 +4,19 @@ Welcome to the Operating Systems repository\! This project is a collection of C 
 
 ## **📖 Table of Contents**
 
-* [About The Project](# **🌟 About The Project**)  
-* [Core Concepts Covered](https://www.google.com/search?q=%23-core-concepts-covered)  
-  * [System Calls & Basics](https://www.google.com/search?q=%23-system-calls)  
-  * [Threads & Signals](https://www.google.com/search?q=%23-threads--signals)  
-  * [Inter-Process Communication (IPC)](https://www.google.com/search?q=%23-inter-process-communication-ipc)  
-  * [Synchronization Problems](https://www.google.com/search?q=%23-synchronization-problems)  
-  * [Applications](https://www.google.com/search?q=%23-applications)  
-* [Repository Structure](https://www.google.com/search?q=%23-repository-structure)  
-* [Getting Started](https://www.google.com/search?q=%23-getting-started)  
-  * [Prerequisites](https://www.google.com/search?q=%23prerequisites)  
-  * [Compilation and Execution](https://www.google.com/search?q=%23compilation-and-execution)  
-* [Contributing](https://www.google.com/search?q=%23-contributing)  
-* [License](https://www.google.com/search?q=%23-license)
+* [About The Project](#-about-the-project)  
+* [Core Concepts Covered](#-core-concepts-covered)  
+  * [System Calls & Basics](#-basic-system-calls)  
+  * [Threads & Signals](#-threads--signals)  
+  * [Inter-Process Communication (IPC)](#-inter-process-communication-ipc)  
+  * [Synchronization Problems](#-synchronization-problems)  
+  * [Applications](#-applications)  
+* [Repository Structure](#-repository-structure)  
+* [Getting Started](#-getting-started)  
+  * [Prerequisites](#prerequisites)  
+  * [Compilation and Execution](#compilation-and-execution)  
+* [Contributing](#-contributing)  
+* [License](#-license)
 
 ## **🌟 About The Project**
 
