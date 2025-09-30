@@ -1,0 +1,109 @@
+Exactly ✅ You’ve got it right.
+
+A **named pipe (FIFO)** works like this:
+
+1. **Creation**
+   You call `mkfifo("mkfile", 0666)` to create a special file in the filesystem. This file is the **pipe**.
+
+2. **Reader behavior**
+
+   * If a **reader** opens the FIFO with `open("mkfile", O_RDONLY)`, the call will **block (wait)** until at least one **writer** opens the FIFO.
+   * Once the writer writes data into it, the reader can call `read()`, and it will **get the data immediately** (as soon as it’s available in the pipe’s kernel buffer).
+
+3. **Writer behavior**
+
+   * If a **writer** opens the FIFO with `open("mkfile", O_WRONLY)`, it will **block** until at least one **reader** has opened it.
+   * Once the reader is ready, the writer can `write()`, and the data flows into the pipe’s buffer.
+
+4. **Synchronization (like a queue)**
+
+   * The pipe is **synchronous**: the reader can’t read unless the writer writes, and the writer can’t write unless a reader is present.
+   * Data is **consumed**: once a reader reads it, it’s gone (not like a normal file).
+
+So yes 👉 **the reader waits until writer puts data**, then immediately **reads it out of the FIFO**.
+
+---
+
+⚡ Example timeline:
+
+* Reader process runs first → calls `open(O_RDONLY)` → **blocks** waiting.
+* Writer starts → calls `open(O_WRONLY)` → both are now connected.
+* Writer calls `write("Hello", …)` → data goes into FIFO buffer.
+* Reader’s `read()` returns `"Hello"`.
+
+---
+
+✅ Correct — in a **named pipe (FIFO)**, the writer **cannot write** unless at least one **reader** has opened the FIFO.
+
+Here’s why:
+
+* When you do
+
+```c
+int fd = open("mkfile", O_WRONLY);
+```
+
+this **blocks** until a **reader** has also opened the FIFO.
+So you can’t even reach `write()` unless a reader is present.
+
+---
+
+👉 However, there are two exceptions:
+
+1. If you open with `O_WRONLY | O_NONBLOCK` (non-blocking mode),
+
+   * `open()` will **fail** with `ENXIO` if no reader is present.
+   * This way, you can check if a reader exists without blocking.
+
+2. If you open with `O_RDWR`, a single process can act as **both reader and writer**, avoiding blocking. But usually in IPC we keep them separate.
+
+---
+
+So the rule is:
+
+* **Writer waits for reader** (unless `O_NONBLOCK` is used).
+* **Reader waits for writer** (if opened in blocking mode).
+
+This is why FIFO is often described as **synchronous** communication.
+
+---
+Good question 👍
+
+Here’s what happens in that case:
+
+---
+
+### Case 1: Reader opens first, then **exits before writer writes**
+
+* The writer does `open("fifo", O_WRONLY)` → succeeds, because **a reader was present** at the time of open.
+* But if the reader **closes/exits** before the writer calls `write()`, then when the writer tries to `write()`:
+
+  * The `write()` will fail with **`SIGPIPE`** signal (default action: terminate process)
+  * Or return `-1` with `errno = EPIPE` (if SIGPIPE is ignored/handled).
+
+So the writer **cannot successfully write** — because there’s no reader anymore.
+
+---
+
+### Case 2: Writer opens first (blocking mode)
+
+* It will **wait forever** until a reader opens.
+* If no reader comes, the writer is stuck.
+
+---
+
+### Case 3: Writer uses `O_NONBLOCK`
+
+* `open("fifo", O_WRONLY | O_NONBLOCK)` → fails immediately with `ENXIO` if no readers are present.
+* Safer for checking if a reader exists.
+
+---
+
+✅ **In short:**
+
+* Writer needs a reader at `open()`.
+* If the reader closes before the writer writes, the writer’s next `write()` fails with `EPIPE` (or process killed by `SIGPIPE`).
+
+---
+
+
