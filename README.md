@@ -35,10 +35,14 @@ A collection of programs demonstrating the use of fundamental system calls for p
 * sleep(): Suspending process execution.  
 * getpid() & getppid(): Retrieving process and parent process IDs.
 
-### **⚡ Threads & Signals**
+## ⚡ Threads & Signals
 
-* **Threads**: Implementations exploring multi-threading concepts.  
-* **Signals**: Programs demonstrating how to handle signals for process control.
+- **Threads**: Implementations exploring multi-threading concepts.  
+- **Signals**: Programs demonstrating how to handle signals for asynchronous event handling. This includes:  
+  - Setting up custom signal handlers using `signal()` and `sigaction()`.  
+  - Sending signals to processes using the `kill()` system call.  
+  - Using signals for inter-process communication, such as in the `sharedmemory_signal` example.  
+
 
 ### **🔄 Inter-Process Communication (IPC)**
 
